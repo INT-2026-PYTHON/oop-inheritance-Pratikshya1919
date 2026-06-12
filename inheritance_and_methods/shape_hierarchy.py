@@ -112,3 +112,112 @@ Explanation:
 =================================================
 
 """
+# Parent class
+class Shape:
+
+    # Constructor
+    def __init__(self, name):
+        self.name = name
+    #An abstract method is a method without a body that must be implemented by child classes.
+    # Abstract method for area
+    def area(self):
+        raise NotImplementedError(
+            "Child classes must override area()"
+        )
+
+    # Abstract method for perimeter
+    def perimeter(self):
+        raise NotImplementedError(
+            "Child classes must override perimeter()"
+            # Forces child classes to define their own area() method
+        )
+
+    # Common method for all shapes
+    def describe(self):
+        print(f"{self.name}: area={self.area()}, perimeter={self.perimeter()}")
+
+
+# Child class Circle
+class Circle(Shape):
+
+    # Constructor (reuse Shape constructor)
+    def __init__(self, radius):
+        super().__init__("Circle")
+        self.radius = radius
+
+    # Override area method
+    def area(self):
+        return 3.14159 * self.radius * self.radius
+
+    # Override perimeter method
+    def perimeter(self):
+        return 2 * 3.14159 * self.radius
+
+
+# Child class Rectangle
+class Rectangle(Shape):
+
+    # Constructor (reuse Shape constructor)
+    def __init__(self, length, width):
+        super().__init__("Rectangle")
+        self.length = length
+        self.width = width
+
+    # Override area method
+    def area(self):
+        return self.length * self.width
+
+    # Override perimeter method
+    def perimeter(self):
+        return 2 * (self.length + self.width)
+
+
+# Child class Triangle
+class Triangle(Shape):
+
+    # Constructor (reuse Shape constructor)
+    def __init__(self, a, b, c):
+        super().__init__("Triangle")
+        self.a = a
+        self.b = b
+        self.c = c
+
+    # Override perimeter method
+    def perimeter(self):
+        return self.a + self.b + self.c
+
+    # Override area method using Heron's formula
+    def area(self):
+        s = self.perimeter() / 2
+        return (s * (s - self.a) * (s - self.b) * (s - self.c)) ** 0.5
+
+
+# Create Shape object and handle NotImplementedError
+s = Shape("Shape")
+
+try:
+    s.describe()
+except NotImplementedError as e:
+    print(e)
+
+# Create Circle object
+r = float(input("Enter circle radius: "))
+c = Circle(r)
+
+# Create Rectangle object
+l = float(input("Enter rectangle length: "))
+w = float(input("Enter rectangle width: "))
+rect = Rectangle(l, w)
+
+# Create Triangle object
+a = float(input("Enter side a: "))
+b = float(input("Enter side b: "))
+c_side = float(input("Enter side c: "))
+tri = Triangle(a, b, c_side)
+
+# Store all shapes in a list
+shapes = [c, rect, tri]
+
+# Use a loop to call describe() for each shape
+for shape in shapes:
+    shape.describe()

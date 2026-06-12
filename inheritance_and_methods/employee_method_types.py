@@ -96,3 +96,79 @@ is_valid_salary("abc")  -> False
 =================================================
 
 """
+# Employee class
+class Employee:
+
+    # Class attributes
+    company = "Acme Corp"
+    raise_pct = 5
+
+    # Constructor
+    def __init__(self, name, sal):
+        self.name = name   # Employee name
+        self.sal = sal     # Employee salary
+
+    # Instance method
+    def apply_raise(self):
+        self.sal = self.sal + (self.sal * Employee.raise_pct / 100)
+
+    # Class method
+    @classmethod
+    def set_raise_percentage(cls, pct):
+        cls.raise_pct = pct
+
+    # Alternate constructor
+    @classmethod
+    def from_string(cls, data):
+        name, sal = data.split(",")#divides the string into pieces at each comma
+        return cls(name, float(sal))
+
+    # Static method
+    @staticmethod
+    def is_valid_salary(x):
+        return type(x) in (int, float) and x > 0
+
+
+# Input for employees
+n1 = input("Enter first employee name: ")
+s1 = float(input("Enter first employee salary: "))
+
+n2 = input("Enter second employee name: ")
+s2 = float(input("Enter second employee salary: "))
+
+data = input("Enter third employee (name,salary): ")
+
+# Objects
+e1 = Employee(n1, s1)
+e2 = Employee(n2, s2)
+e3 = Employee.from_string(data)
+
+# First raise (5%)
+e1.apply_raise()
+e2.apply_raise()
+e3.apply_raise()
+
+# Change raise percentage
+pct = float(input("Enter new raise percentage: "))
+Employee.set_raise_percentage(pct)
+
+# Second raise
+e1.apply_raise()
+e2.apply_raise()
+e3.apply_raise()
+
+# Employee details
+print(f"{e1.name} -> {e1.sal}")
+print(f"{e2.name} -> {e2.sal}")
+print(f"{e3.name} -> {e3.sal}")
+
+# Static method calls
+print(Employee.is_valid_salary(50000))
+print(Employee.is_valid_salary(-100))
+print(Employee.is_valid_salary("abc"))
+
+# Instance method -> uses self (object data)
+
+# Class method -> uses cls (class data)
+
+# Static method -> uses neither self nor cls
